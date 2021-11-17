@@ -38,7 +38,7 @@ class _TicketCard extends State<TicketCard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 100),
       lowerBound: 0.8,
       vsync: this,
     );
@@ -97,6 +97,9 @@ class _TicketCard extends State<TicketCard> with TickerProviderStateMixin {
         if (widget.onTap != null) {
           _controller.forward();
         }
+      },
+      onTapCancel: () {
+        _controller.forward();
       },
       onTap: widget.onTap,
     );
