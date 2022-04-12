@@ -38,7 +38,7 @@ class _TicketCard extends State<TicketCard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 200),
       lowerBound: 0.8,
       vsync: this,
     );
