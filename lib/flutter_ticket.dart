@@ -1,4 +1,4 @@
-library flutter_ticket;
+library;
 
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class TicketCard extends StatefulWidget {
   final GestureTapCallback? onTap;
 
   TicketCard({
-    Key? key,
+    super.key,
     this.margin = const EdgeInsets.all(5),
     TicketDecoration? decoration,
     TicketDivider? divider,
@@ -21,8 +21,7 @@ class TicketCard extends StatefulWidget {
     required this.bottomChild,
     this.onTap,
   })  : _decoration = decoration ?? TicketDecoration(),
-        _divider = divider,
-        super(key: key);
+        _divider = divider;
 
   @override
   State<StatefulWidget> createState() {
@@ -54,6 +53,20 @@ class _TicketCard extends State<TicketCard> with TickerProviderStateMixin {
     final clipRatio = widget.topFlex / (widget.topFlex + widget.bottomFlex);
 
     return GestureDetector(
+      onTapDown: (details) {
+        if (widget.onTap != null) {
+          _controller.reverse();
+        }
+      },
+      onTapUp: (details) {
+        if (widget.onTap != null) {
+          _controller.forward();
+        }
+      },
+      onTapCancel: () {
+        _controller.forward();
+      },
+      onTap: widget.onTap,
       child: ScaleTransition(
         scale: _animation,
         child: Padding(
@@ -88,20 +101,6 @@ class _TicketCard extends State<TicketCard> with TickerProviderStateMixin {
           ),
         ),
       ),
-      onTapDown: (details) {
-        if (widget.onTap != null) {
-          _controller.reverse();
-        }
-      },
-      onTapUp: (details) {
-        if (widget.onTap != null) {
-          _controller.forward();
-        }
-      },
-      onTapCancel: () {
-        _controller.forward();
-      },
-      onTap: widget.onTap,
     );
   }
 }
@@ -116,7 +115,7 @@ class _CustomClipper extends CustomClipper<Path> {
   getClip(Size size) {
     final clipHeight = size.height * clipRatio;
 
-    var path = Path()
+    final path = Path()
       ..moveTo(0.0, decoration.borderRadius)
       ..quadraticBezierTo(0, 0, decoration.borderRadius, 0)
       ..lineTo(size.width - decoration.borderRadius, 0.0)
@@ -160,11 +159,11 @@ class _CustomPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final clipHeight = size.height * clipRatio;
 
-    var paint = Paint()
+    final paint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
 
-    var path = Path()
+    final path = Path()
       ..moveTo(0.0, decoration.borderRadius)
       ..quadraticBezierTo(0, 0, decoration.borderRadius, 0)
       ..lineTo(size.width - decoration.borderRadius, 0.0)
@@ -207,20 +206,20 @@ class _DividerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = divider.dashHeight
       ..color = divider.color;
 
     // Chage to your preferred size
-    double dashWidth = divider.dashWidth;
-    double dashSpace = divider.dashSpace;
+    final double dashWidth = divider.dashWidth;
+    final double dashSpace = divider.dashSpace;
 
     // Start to draw from left size.
     // Of course, you can change it to match your requirement.
     double startX = 0;
-    double y = size.height * clipRatio;
+    final double y = size.height * clipRatio;
 
     // Repeat drawing until we reach the right edge.
     while (startX < size.width) {
